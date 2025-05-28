@@ -1,7 +1,9 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
+    branch = 'master',
     build = ":TSUpdate",
+    lazy = false,
     opts = {
       ensure_installed = { "lua", "javascript", "python", "c", "go", "sql", "java" },
       highlight = {
