@@ -18,7 +18,7 @@ return {
     "mason-org/mason-lspconfig.nvim",
     opts = {
       ensure_installed = {
-        "lua_ls"
+        "lua_ls","ts_ls",
       }
     },
     dependencies = {
@@ -33,7 +33,6 @@ return {
   {
     "neovim/nvim-lspconfig",
     config = function()
-      
       --- START OF DIAGNOSTIC CONFIGURATION ---
       vim.diagnostic.config({
           virtual_text = {
@@ -52,7 +51,7 @@ return {
 
       local lspconfig = require("lspconfig")
       lspconfig.lua_ls.setup({})
-
+      lspconfig.ts_ls.setup({})
       -- Global mappings.
       -- See `:help vim.diagnostic.*` for documentation on any of the below functions
       vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)
