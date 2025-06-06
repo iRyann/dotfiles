@@ -7,12 +7,13 @@ return {
     { "nvim-telescope/telescope.nvim", branch = "0.1.x", dependencies = { "nvim-lua/plenary.nvim" } },
   },
   lazy = false,
-  branch = "regexp", -- This is the regexp branch, use this for the new version
   keys = {
     { ",v", "<cmd>VenvSelect<cr>" },
   },
   opts = {
-    -- Your settings go here
+    search_venv_managers = true,
+    parents = 2,
+    name = { ".venv", "venv", "env" },
   },
   config = function(_, opts)
     require("venv-selector").setup(opts)
