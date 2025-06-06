@@ -1,4 +1,7 @@
 return {
+  {
+		"hrsh7th/cmp-nvim-lsp"
+  },
 	{
 		"L3MON4D3/LuaSnip",
 		dependencies = {
@@ -16,10 +19,7 @@ return {
 				snippet = {
 					-- REQUIRED - you must specify a snippet engine
 					expand = function(args)
-						vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
 						require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
-						-- require('snippy').expand_snippet(args.body) -- For `snippy` users.
-						-- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
 						-- vim.snippet.expand(args.body) -- For native neovim snippets (Neovim v0.10+)
 
 						-- For `mini.snippets` users:

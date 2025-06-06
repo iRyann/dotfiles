@@ -48,11 +48,18 @@ return {
           underline = true,
       })
       -- --- END OF DIAGNOSTIC CONFIGURATION ---
-
+      --- Broadcast lsp to snippet thanks to capabilities for each ones
+      local capabilities = require('cmp_nvim_lsp').default_capabilities()
       local lspconfig = require("lspconfig")
-      lspconfig.lua_ls.setup({})
-      lspconfig.ts_ls.setup({})
-      lspconfig.pyright.setup({})
+      lspconfig.lua_ls.setup({
+        capabilities = capabilities
+      })
+      lspconfig.ts_ls.setup({
+        capabilities = capabilities
+      })
+      lspconfig.pyright.setup({
+        capabilities = capabilities
+      })
       -- Global mappings.
       -- See `:help vim.diagnostic.*` for documentation on any of the below functions
       vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)
