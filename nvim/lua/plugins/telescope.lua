@@ -10,7 +10,7 @@ return{
       }
     },
     config = function(_, opts)
-      require("telescope").setup()
+      require("telescope").setup(opts)
     end
   },
   {
