@@ -9,6 +9,6 @@ return {
 		},
 	},
   config = function (_, opts)
-    require("lazydev").setup(opts)    
+    require("lazydev").setup(opts)
   end
 }
