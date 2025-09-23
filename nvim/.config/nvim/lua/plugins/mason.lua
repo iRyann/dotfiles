@@ -1,3 +1,4 @@
+-- REMPLACER COMPLÈTEMENT lua/plugins/mason.lua
 return {
 	{
 		"mason-org/mason.nvim",
@@ -25,48 +26,30 @@ return {
 				"clangd", -- LSP C/C++
 				"debugpy", -- Debug Python
 				"cpptools", -- Debug C/C++
-				"stylua", -- Formatter Lua
-				"black", -- Formatter Python
-				"prettier", -- Formatter JS/TS
 			},
 		},
 		dependencies = {
-			{ "mason-org/mason.nvim", opts = {} },
-			"neovim/nvim-lspconfig",
+			"mason-org/mason.nvim",
 		},
 		config = function(_, opts)
 			require("mason-lspconfig").setup(opts)
-		end,
-	},
-	{
-		"neovim/nvim-lspconfig",
-		config = function()
-			--- START OF DIAGNOSTIC CONFIGURATION ---
-			vim.diagnostic.config({
-				virtual_text = {
-					enabled = true,
-				},
-				float = {
-					enabled = true,
-					border = "rounded",
-				},
-				signs = {
-					active = true,
-				},
-				underline = true,
-			})
-			-- --- END OF DIAGNOSTIC CONFIGURATION ---
-			--- Broadcast lsp to snippet thanks to capabilities for each ones
+
+			-- NOUVELLE API Neovim 0.11+ - Plus de require('lspconfig')
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
-			local lspconfig = require("lspconfig")
-			local util = require("lspconfig/util")
-			lspconfig.lua_ls.setup({
+
+			-- Configuration personnalisée pour certains serveurs
+			vim.lsp.config("lua_ls", {
 				capabilities = capabilities,
+				settings = {
+					Lua = {
+						diagnostics = {
+							globals = { "vim" },
+						},
+					},
+				},
 			})
-			lspconfig.ts_ls.setup({
-				capabilities = capabilities,
-			})
-			lspconfig.pyright.setup({
+
+			vim.lsp.config("pyright", {
 				capabilities = capabilities,
 				on_init = function(client)
 					local venv_path = require("venv-selector").get_active_path()
@@ -86,50 +69,82 @@ return {
 					},
 				},
 			})
+
+			vim.lsp.config("gopls", {
+				capabilities = capabilities,
+				settings = {
+					gopls = {
+						completeUnimported = true,
+						usePlaceholders = true,
+						analyses = {
+							unusedparams = true,
+						},
+					},
+				},
+			})
+
+			vim.lsp.config("ts_ls", {
+				capabilities = capabilities,
+			})
+
+			vim.lsp.config("clangd", {
+				capabilities = capabilities,
+			})
+
+			-- Activer les serveurs (NOUVELLE API)
+			vim.lsp.enable("lua_ls")
+			vim.lsp.enable("pyright")
+			vim.lsp.enable("gopls")
+			vim.lsp.enable("ts_ls")
+			vim.lsp.enable("clangd")
+
+			-- Auto-restart LSP quand venv change
 			vim.api.nvim_create_autocmd("User", {
 				pattern = "VenvSelectActivated",
 				callback = function()
 					vim.cmd("LspRestart")
 				end,
 			})
-			require("go").setup({
-				lsp_cfg = false,
-				capabilities = capabilities,
+		end,
+	},
+	-- Diagnostics et keymaps LSP
+	{
+		"neovim/nvim-lspconfig", -- Toujours nécessaire pour les configs serveur
+		config = function()
+			-- Configuration diagnostics
+			vim.diagnostic.config({
+				virtual_text = { enabled = true },
+				float = { enabled = true, border = "rounded" },
+				signs = { active = true },
+				underline = true,
 			})
-			local cfg = require("go.lsp").config()
-			lspconfig.gopls.setup(cfg)
 
-			-- Global mappings.
-			-- See `:help vim.diagnostic.*` for documentation on any of the below functions
-			vim.keymap.set("n", "<space>d", vim.diagnostic.open_float)
-			vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist)
+			-- Keymaps globaux pour diagnostics
+			vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, { desc = "Show diagnostics" })
+			vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Diagnostics list" })
 
-			-- Use LspAttach autocommand to only map the following keys
-			-- after the language server attaches to the current buffer
+			-- Auto-attach keymaps quand LSP s'attache
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("UserLspConfig", {}),
 				callback = function(ev)
-					-- Enable completion triggered by <c-x><c-o>
 					vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
 
-					-- Buffer local mappings.
-					-- See `:help vim.lsp.*` for documentation on any of the below functions
 					local opts = { buffer = ev.buf }
 					vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
 					vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
 					vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
 					vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
 					vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
-					vim.keymap.set("n", "<space>wa", vim.lsp.buf.add_workspace_folder, opts)
-					vim.keymap.set("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, opts)
-					vim.keymap.set("n", "<space>wl", function()
+					vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts)
+					vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts)
+					vim.keymap.set("n", "<leader>wl", function()
 						print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 					end, opts)
-					vim.keymap.set("n", "<space>D", vim.lsp.buf.type_definition, opts)
-					vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, opts)
-					vim.keymap.set({ "n", "v" }, "<space>ca", vim.lsp.buf.code_action, opts)
+					vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, opts)
+					vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+					vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
 					vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-					vim.keymap.set("n", "<space>f", function()
+					vim.keymap.set("n", "<leader>f", function()
 						vim.lsp.buf.format({ async = true })
 					end, opts)
 				end,
