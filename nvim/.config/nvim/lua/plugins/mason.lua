@@ -24,8 +24,7 @@ return {
 				"pyright",
 				"gopls",
 				"clangd", -- LSP C/C++
-				"debugpy", -- Debug Python
-				"cpptools", -- Debug C/C++
+				"asm_lsp",
 			},
 		},
 		dependencies = {
@@ -52,11 +51,13 @@ return {
 			vim.lsp.config("pyright", {
 				capabilities = capabilities,
 				on_init = function(client)
-					local venv_path = require("venv-selector").get_active_path()
-					if venv_path then
+					local venv = vim.env.VIRTUAL_ENV
+					if venv and venv ~= "" then
+						local py = (vim.loop.os_uname().sysname:match("Windows")) and (venv .. "\\Scripts\\python.exe")
+							or (venv .. "/bin/python")
 						client.config.settings = client.config.settings or {}
 						client.config.settings.python = client.config.settings.python or {}
-						client.config.settings.python.pythonPath = venv_path
+						client.config.settings.python.pythonPath = py
 					end
 				end,
 				settings = {
@@ -90,13 +91,27 @@ return {
 			vim.lsp.config("clangd", {
 				capabilities = capabilities,
 			})
-
+			vim.lsp.config("asm_lsp", {
+				capabilities = capabilities,
+				-- filetypes reconnus (NASM)
+				filetypes = { "s", "asm", "nasm" },
+				single_file_support = true,
+				-- selon les versions d'asm-lsp :
+				settings = {
+					["asm-lsp"] = {
+						dialect = "nasm", -- NASM
+						target = "x86_64", -- AMD64
+						-- targetOS = "linux", -- optionnel suivant les builds
+					},
+				},
+			})
 			-- Activer les serveurs (NOUVELLE API)
 			vim.lsp.enable("lua_ls")
 			vim.lsp.enable("pyright")
 			vim.lsp.enable("gopls")
 			vim.lsp.enable("ts_ls")
 			vim.lsp.enable("clangd")
+			vim.lsp.enable("asm_lsp")
 
 			-- Auto-restart LSP quand venv change
 			vim.api.nvim_create_autocmd("User", {
