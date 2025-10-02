@@ -1,12 +1,12 @@
 return {
-  {
-		"hrsh7th/cmp-nvim-lsp"
-  },
+	{
+		"hrsh7th/cmp-nvim-lsp",
+	},
 	{
 		"L3MON4D3/LuaSnip",
 		dependencies = {
 			"saadparwaiz1/cmp_luasnip",
-      "rafamadriz/friendly-snippets"
+			"rafamadriz/friendly-snippets",
 		},
 	},
 
@@ -14,19 +14,13 @@ return {
 		"hrsh7th/nvim-cmp",
 		config = function()
 			local cmp = require("cmp")
-      require("luasnip.loaders.from_vscode").lazy_load()
+			require("luasnip.loaders.from_vscode").lazy_load()
+      require("luasnip.loaders.from_lua").lazy_load({ paths = "~/.config/nvim/lua/snippets" })
 			cmp.setup({
 				snippet = {
 					-- REQUIRED - you must specify a snippet engine
 					expand = function(args)
-						require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
-						-- vim.snippet.expand(args.body) -- For native neovim snippets (Neovim v0.10+)
-
-						-- For `mini.snippets` users:
-						-- local insert = MiniSnippets.config.expand.insert or MiniSnippets.default_insert
-						-- insert({ body = args.body }) -- Insert at cursor
-						-- cmp.resubscribe({ "TextChangedI", "TextChangedP" })
-						-- require("cmp.config").set_onetime({ sources = {} })
+						require("luasnip").lsp_expand(args.body)
 					end,
 				},
 				window = {
@@ -43,7 +37,7 @@ return {
 				sources = cmp.config.sources({
 					{ name = "nvim_lsp" },
 					{ name = "luasnip" }, -- For luasnip users.
-          { name = "lazydev" },
+					{ name = "lazydev" },
 				}, {
 					{ name = "buffer" },
 				}),
