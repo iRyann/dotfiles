@@ -25,5 +25,6 @@ return {
 				path = "/home/ryan/.vaulty/5 ~ Engineering Wiki",
 			},
 		},
+		ui = { enable = false },
 	},
 }
