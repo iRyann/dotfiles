@@ -1,73 +1,123 @@
 -- stylua: ignore start
--- ~/.config/nvim/lua/snippets/writeup.lua
+-- stylua: ignore start
 local ls = require("luasnip")
-local s  = ls.snippet
-local t  = ls.text_node
-local i  = ls.insert_node
+local s = ls.snippet
+local t = ls.text_node
+local i = ls.insert_node
+local fmt = require("luasnip.extras.fmt").fmt
 
 return {
-  -- type "wup" then expand
-  s("wup", {
-    t({ "---", 'title: "' }),
+  s("wup", fmt([[
+---
+title: "{}"
+challenge: "{}"
+difficulty: "{}"
+platform: "{}"
+date: "{}"
+tags: [{}]
+author: "Ryan Bouchou"
+status: "in-progress"
+---
+
+# {}
+
+**Résumé (1-2 lignes)**
+{}
+
+---
+
+## Contexte
+
+- Source : {}
+- Environnement testé : {}
+- Fichiers fournis : {}
+
+---
+
+## Objectif
+
+{}
+
+---
+
+## Outils
+
+- gdb + gef / pwndbg
+- pwntools (python3)
+- readelf / objdump / strings / file
+
+---
+
+## Analyse
+
+### 1) Reconnaissance statique
+
+{}
+
+### 2) Analyse dynamique
+
+{}
+
+### 3) Exploit
+
+Stratégie : {}
+
+Payload (extrait) :
+```py
+from pwn import *
+context.update(arch='amd64', timeout=2)
+p = process('./build/a.out')
+{}
+p.interactive()
+```
+
+---
+
+## Résultat
+
+{}
+
+## Root cause
+
+{}
+
+## Mitigation
+
+{}
+
+## Leçons apprises / next steps
+
+{}
+
+## Commandes & références
+
+{}
+
+## Artefacts
+
+{}
+]], {
     i(1, "Titre du challenge"),
-    t({ '"', 'challenge: "' }),
     i(2, "root-me/picoCTF"),
-    t({ '"', 'difficulty: "' }),
     i(3, "Easy"),
-    t({ '"', 'platform: "' }),
     i(4, "amd64/remote"),
-    t({ '"', 'date: "' }),
     i(5, "YYYY-MM-DD"),
-    t({ '"', 'tags: [' }),
     i(6, "binary,overflow"),
-    t({ ']', 'author: "Ryan Bouchou"', 'status: "in-progress"', '---', "" }),
-    t({ "# " }),
     i(7, "Titre lisible"),
-    t({ "", "" }),
-    t({ "**Résumé (1-2 lignes)**", "" }),
     i(8, "Résumé court..."),
-    t({ "", "---", "", "## Contexte", "" }),
-    t({ "- Source : " }),
     i(9, "root-me / cours / picoCTF"),
-    t({ "", "- Environnement testé : " }),
     i(10, "Ubuntu 22.04, amd64, glibc 2.35"),
-    t({ "", "- Fichiers fournis : " }),
     i(11, "vuln, main.c, libc.so"),
-    t({ "", "", "---", "", "## Objectif", "" }),
     i(12, "Récupérer la flag / obtenir un shell"),
-    t({ "", "", "---", "", "## Outils", "" }),
-    t({
-      "- gdb + gef / pwndbg",
-      "- pwntools (python3)",
-      "- readelf / objdump / strings / file",
-      "",
-      "---",
-      "",
-      "## Analyse",
-      "",
-      "### 1) Reconnaissance statique",
-      ""
-    }),
-    i(13, "- commandes & observations (file / readelf / objdump)"),
-    t({ "", "", "### 2) Analyse dynamique", "" }),
-    i(14, "- breakpoints, comportement runtime (gdb)"),
-    t({ "", "", "### 3) Exploit", "Stratégie : " }),
+    i(13, "- commandes & observations"),
+    i(14, "- breakpoints, comportement runtime"),
     i(15, "ret2libc / overflow / format-string"),
-    t({ "", "", "Payload (extrait) :", "```py", "" }),
-    i(16,
-      "from pwn import *\ncontext.update(arch='amd64', timeout=2)\np = process('./build/a.out')\np.sendline(b'...')\np.interactive()"),
-    t({ "", "```", "", "---", "", "## Résultat", "" }),
+    i(16, "p.sendline(b'...')"),
     i(17, "- Flag : CTF{...}"),
-    t({ "", "", "## Root cause", "" }),
     i(18, "Explication courte du bug"),
-    t({ "", "", "## Mitigation", "" }),
-    i(19, "- corrections proposées (snprintf, bounds checks, canary)"),
-    t({ "", "", "## Leçons apprises / next steps", "" }),
-    i(20, "- pistes (fuzzing, ROP, ret2libc)"),
-    t({ "", "", "## Commandes & références", "" }),
+    i(19, "- corrections proposées"),
+    i(20, "- pistes d'amélioration"),
     i(21, "- readelf -a binary"),
-    t({ "", "", "## Artefacts", "" }),
     i(22, "- exploit.py, build/"),
-    t({ ""}),
-  }),
+  }))
 }
