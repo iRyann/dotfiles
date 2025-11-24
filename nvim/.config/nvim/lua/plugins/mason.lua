@@ -25,6 +25,7 @@ return {
 				"gopls",
 				"clangd", -- LSP C/C++
 				"asm_lsp",
+				"bashls",
 			},
 		},
 		dependencies = {
@@ -105,6 +106,10 @@ return {
 					},
 				},
 			})
+			vim.lsp.config("bashls", {
+				capabilities = capabilities,
+			})
+
 			-- Activer les serveurs (NOUVELLE API)
 			vim.lsp.enable("lua_ls")
 			vim.lsp.enable("pyright")
@@ -112,6 +117,7 @@ return {
 			vim.lsp.enable("ts_ls")
 			vim.lsp.enable("clangd")
 			vim.lsp.enable("asm_lsp")
+			vim.lsp.enable("bashls")
 
 			-- Auto-restart LSP quand venv change
 			vim.api.nvim_create_autocmd("User", {

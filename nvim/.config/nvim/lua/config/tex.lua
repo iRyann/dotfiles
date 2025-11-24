@@ -7,5 +7,5 @@ vim.cmd("syntax enable")
 -- Configuration de VimTeX
 vim.g.vimtex_view_method = "zathura"
 
-
-
+-- Default localleader
+vim.g.localleader = ","
