@@ -1,5 +1,4 @@
--- stylua: ignore start
--- stylua: ignore start
+-- ~/.config/nvim/lua/snippets/markdown.lua
 local ls = require("luasnip")
 local s = ls.snippet
 local t = ls.text_node
@@ -7,117 +6,239 @@ local i = ls.insert_node
 local fmt = require("luasnip.extras.fmt").fmt
 
 return {
-  s("wup", fmt([[
+	-- SNIPPET MINIMAL POUR PRISE DE NOTES RAPIDE (utilise ça PENDANT l'exam)
+	s(
+		"note",
+		fmt(
+			[[
+## [{}] {}
+
+**FACT:** {}
+
+**HYP:** {}
+
+**TEST:** {}
+
+**RES:** {}
+
+---
+]],
+			{
+				i(1, vim.fn.strftime("%H:%M")),
+				i(2, "Phase"),
+				i(3, "observation"),
+				i(4, "hypothèse"),
+				i(5, "test prévu"),
+				i(6, "résultat"),
+			}
+		)
+	),
+
+	-- SNIPPET FONCTION CRITIQUE (analyse statique)
+	s(
+		"func",
+		fmt(
+			[[
+### Fonction: {}
+
+- **Adresse:** `{}`
+- **Rôle:** {}
+- **FACT:** {}
+- **HYP:** {}
+````c
+{}
+````
+]],
+			{
+				i(1, "function_name"),
+				i(2, "0x401234"),
+				i(3, "description"),
+				i(4, "observations"),
+				i(5, "hypothèse"),
+				i(6, "// pseudo-code Ghidra"),
+			}
+		)
+	),
+
+	-- SNIPPET TEST DYNAMIQUE
+	s(
+		"test",
+		fmt(
+			[[
+#### Test: {}
+
+**Commande:**
+````bash
+{}
+````
+
+**Observation:**
+{}
+
+**Conclusion:** {}
+]],
+			{
+				i(1, "description du test"),
+				i(2, "gdb ./bin"),
+				i(3, "résultat observé"),
+				i(4, "confirmé/infirmé/incertain"),
+			}
+		)
+	),
+
+	-- SNIPPET STRUCTURE COMPLÈTE (À UTILISER APRÈS L'EXAM pour le rapport final)
+	s(
+		"report",
+		fmt(
+			[[
 ---
 title: "{}"
-challenge: "{}"
-difficulty: "{}"
-platform: "{}"
-date: "{}"
-tags: [{}]
-author: "Ryan Bouchou"
-status: "in-progress"
+analyst: "Ryan Bouchou"
+date: {}
+target: "{}"
+hashes:
+  sha256: {}
 ---
 
-# {}
+# Reverse Engineering Report
 
-**Résumé (1-2 lignes)**
+## 1. Contexte & objectifs
+
+### 1.1 Cible
+- Binaire: {}
+- Arch: {}
+- Protections: {}
+
+### 1.2 Objectif
 {}
 
----
-
-## Contexte
-
-- Source : {}
-- Environnement testé : {}
-- Fichiers fournis : {}
-
----
-
-## Objectif
-
+### 1.3 Limites
 {}
 
 ---
 
-## Outils
+## 2. Environnement
 
-- gdb + gef / pwndbg
-- pwntools (python3)
-- readelf / objdump / strings / file
-
----
-
-## Analyse
-
-### 1) Reconnaissance statique
-
-{}
-
-### 2) Analyse dynamique
-
-{}
-
-### 3) Exploit
-
-Stratégie : {}
-
-Payload (extrait) :
-```py
-from pwn import *
-context.update(arch='amd64', timeout=2)
-p = process('./build/a.out')
-{}
-p.interactive()
-```
+- OS: Arch Linux
+- VM: {}
+- Tools: Ghidra, gdb+gef, r2, pwntools
 
 ---
 
-## Résultat
+## 3. Reconnaissance
+
+### 3.1 Propriétés générales
+````bash
+file {}
+checksec --file={}
+strings {} | head -20
+````
+
+### 3.2 Imports/Exports
+{}
+
+### 3.3 Chaînes intéressantes
+{}
+
+---
+
+## 4. Analyse statique
+
+### 4.1 Entry point
+{}
+
+### 4.2 Fonctions critiques
+{}
+
+---
+
+## 5. Analyse dynamique
+
+### 5.1 Tests
+{}
+
+### 5.2 Validation hypothèses
+{}
+
+---
+
+## 6. Protections & anti-RE
 
 {}
 
-## Root cause
+---
+
+## 7. Modèle reconstruit
 
 {}
 
-## Mitigation
+---
+
+## 8. Points sensibles
 
 {}
 
-## Leçons apprises / next steps
+---
+
+## 9. Journal chronologique
 
 {}
 
-## Commandes & références
+---
 
+## 10. Synthèse
+
+### Compris
+- {}
+
+### Partiellement compris
+- {}
+
+### Non résolu
+- {}
+
+### Recommandations
+- {}
+
+---
+
+## Annexes
+
+### Scripts utilisés
+````python
 {}
-
-## Artefacts
-
-{}
-]], {
-    i(1, "Titre du challenge"),
-    i(2, "root-me/picoCTF"),
-    i(3, "Easy"),
-    i(4, "amd64/remote"),
-    i(5, "YYYY-MM-DD"),
-    i(6, "binary,overflow"),
-    i(7, "Titre lisible"),
-    i(8, "Résumé court..."),
-    i(9, "root-me / cours / picoCTF"),
-    i(10, "Ubuntu 22.04, amd64, glibc 2.35"),
-    i(11, "vuln, main.c, libc.so"),
-    i(12, "Récupérer la flag / obtenir un shell"),
-    i(13, "- commandes & observations"),
-    i(14, "- breakpoints, comportement runtime"),
-    i(15, "ret2libc / overflow / format-string"),
-    i(16, "p.sendline(b'...')"),
-    i(17, "- Flag : CTF{...}"),
-    i(18, "Explication courte du bug"),
-    i(19, "- corrections proposées"),
-    i(20, "- pistes d'amélioration"),
-    i(21, "- readelf -a binary"),
-    i(22, "- exploit.py, build/"),
-  }))
+````
+]],
+			{
+				i(1, "Challenge name"),
+				t(vim.fn.strftime("%Y-%m-%d")),
+				i(2, "./binary"),
+				i(3, "à calculer"),
+				i(4, "./binary"),
+				i(5, "amd64"),
+				i(6, "NX, PIE, RELRO"),
+				i(7, "Comprendre mécanisme X"),
+				i(8, "Temps limité, pas de réseau"),
+				i(9, "snapshot-1"),
+				i(10, "./binary"),
+				i(11, "./binary"),
+				i(12, "./binary"),
+				i(13, "crypto, socket, ptrace..."),
+				i(14, "URLs, messages d'erreur..."),
+				i(15, "main @ 0x401234"),
+				i(16, "check_password, decrypt_data..."),
+				i(17, "Scénarios + résultats"),
+				i(18, "HYP → TEST → RES"),
+				i(19, "Anti-debug, packing..."),
+				i(20, "Flow d'exécution, structures..."),
+				i(21, "Surfaces d'entrée, parsing..."),
+				i(22, "Timeline détaillée"),
+				i(23, "Point 1"),
+				i(24, "Point 2"),
+				i(25, "Point 3"),
+				i(26, "Suggestions"),
+				i(27, "# scripts d'analyse"),
+			}
+		)
+	),
 }
