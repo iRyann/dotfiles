@@ -1,12 +1,18 @@
-define pwndbg
+# Charger d'abord ta config commune
+source ~/.gdbinit.d/common.gdb
+
+# Commande pour charger pwndbg
+define use_pwndbg
     source ~/.gdbinit.d/pwndbg.gdb
-    echo Loaded Pwndbg\n
+    echo Loaded pwndbg via selector\n
 end
 
-define gef
+# Commande pour charger GEF
+define use_gef
     source ~/.gdbinit.d/gef.gdb
-    echo Loaded GEF\n
+    echo Loaded gef via selector\n
 end
 
-# Charger automatiquement un choix par défaut :
-pwndbg
+# Choix par défaut au démarrage
+use_pwndbg
+
