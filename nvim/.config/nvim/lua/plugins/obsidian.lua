@@ -13,10 +13,6 @@ return {
 	opts = {
 		workspaces = {
 			{
-				name = "personal",
-				path = "/home/ryan/.vaulty/0 ~ Fleeting Notes",
-			},
-			{
 				name = "cy",
 				path = "/home/ryan/.vaulty/7 ~ CY",
 			},
@@ -27,7 +23,7 @@ return {
 		},
 		ui = { enable = false },
 		templates = {
-			folder = "/home/ryan/.vaulty/Templates/",
+			folder = "~/.vaulty/Templates",
 			date_format = "%Y-%m-%d-%a",
 			time_format = "%H:%M",
 		},
