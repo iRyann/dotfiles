@@ -7,7 +7,7 @@ return {
       vim.o.timeout = true
       vim.o.timeoutlen = 300
     end,
-    opts = {
+
       spec = {
         { "<leader>f", group = "Find" },
         { "<leader>g", group = "Git" },
@@ -34,4 +34,12 @@ return {
       require("nvim-surround").setup()
     end
   },
+  {
+    "rcarriga/nvim-notify",
+    config = function()
+      local notify = require("notify")
+      notify.setup()
+      vim.notify = notify
+    end,
+  }
 }
