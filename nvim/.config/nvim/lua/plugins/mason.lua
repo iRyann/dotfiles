@@ -1,4 +1,4 @@
--- REMPLACER COMPLÈTEMENT lua/plugins/mason.lua
+-- lua/plugins/mason.lua
 return {
 	{
 		"mason-org/mason.nvim",
@@ -91,6 +91,14 @@ return {
 
 			vim.lsp.config("clangd", {
 				capabilities = capabilities,
+				cmd = {
+					"clangd",
+					"--background-index",
+					"--clang-tidy",
+					"--completion-style=detailed",
+					"--header-insertion=iwyu",
+					"--query-driver=/usr/bin/x86_64-w64-mingw32-*",
+				},
 			})
 			vim.lsp.config("asm_lsp", {
 				capabilities = capabilities,

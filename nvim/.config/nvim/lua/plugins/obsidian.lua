@@ -13,19 +13,16 @@ return {
 	opts = {
 		workspaces = {
 			{
-				name = "cy",
-				path = "/home/ryan/.vaulty/7 ~ CY",
-			},
-			{
 				name = "engineering",
-				path = "/home/ryan/.vaulty/5 ~ Engineering Wiki",
+				path = "/home/ryan/.vaulty/digitalGarden/",
 			},
 		},
 		ui = { enable = false },
 		templates = {
-			folder = "~/.vaulty/Templates",
+			folder = "Templates",
 			date_format = "%Y-%m-%d-%a",
 			time_format = "%H:%M",
 		},
+		legacy_commands = false,
 	},
 }
