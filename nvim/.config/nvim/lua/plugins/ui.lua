@@ -7,14 +7,14 @@ return {
       vim.o.timeout = true
       vim.o.timeoutlen = 300
     end,
-
+    opts = {
       spec = {
         { "<leader>f", group = "Find" },
         { "<leader>g", group = "Git" },
         { "<leader>d", group = "Debug/Diagnostics" },
         { "<leader>r", group = "Run" },
         { "<leader>w", group = "Workspace" },
-      }
+      },
     },
   },
   {
@@ -40,6 +40,6 @@ return {
       local notify = require("notify")
       notify.setup()
       vim.notify = notify
-    end,
-  }
+    end
+  },
 }

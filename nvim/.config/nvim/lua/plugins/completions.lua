@@ -9,11 +9,17 @@ return {
 			"rafamadriz/friendly-snippets",
 		},
 	},
+	{
+		"windwp/nvim-autopairs",
+		event = "InsertEnter",
+		config = true,
+	},
 
 	{
 		"hrsh7th/nvim-cmp",
 		config = function()
 			local cmp = require("cmp")
+			local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 			require("luasnip.loaders.from_vscode").lazy_load()
 			require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/lua/snippets" })
 			cmp.setup({
@@ -42,6 +48,7 @@ return {
 					{ name = "buffer" },
 				}),
 			})
+			cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 		end,
 	},
 }
