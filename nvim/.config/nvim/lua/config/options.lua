@@ -1,4 +1,4 @@
--- config/options.lua 
+-- config/options.lua
 -- Indentation intelligente
 vim.opt.autoindent = true
 vim.opt.smartindent = true
@@ -27,11 +27,10 @@ vim.opt.hlsearch = true
 vim.opt.updatetime = 250
 vim.opt.timeoutlen = 300
 
--- Theme
-vim.cmd('colorscheme catppuccin')
-
 -- asm-lsp
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-  pattern = { "*.asm", "*.nasm", "*.s" }, -- si tu gardes .s
-  callback = function(ev) vim.bo[ev.buf].filetype = "nasm" end,
+	pattern = { "*.asm", "*.nasm", "*.s" }, -- si tu gardes .s
+	callback = function(ev)
+		vim.bo[ev.buf].filetype = "nasm"
+	end,
 })
