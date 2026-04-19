@@ -23,7 +23,7 @@ return {
 				"ts_ls",
 				"pyright",
 				"gopls",
-				"clangd", -- LSP C/C++
+				--"clangd", -- LSP C/C++
 				"asm_lsp",
 				"bashls",
 			},
