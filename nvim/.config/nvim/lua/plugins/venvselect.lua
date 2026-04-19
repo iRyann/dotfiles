@@ -13,9 +13,9 @@ return {
 		opts = {
 			auto_activate = false,
 			cached_venv_automatic_activation = false,
-			search = {
-				venvs = { ".venv", "venv", "env", ".tox", ".conda", "envs" },
-			},
+			--search = {
+			--	venvs = { ".venv", "venv", "env", ".tox", ".conda", "envs" },
+			--},
 		},
 		config = function(_, opts)
 			require("venv-selector").setup(opts)

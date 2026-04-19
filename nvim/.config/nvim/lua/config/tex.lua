@@ -8,4 +8,4 @@ vim.cmd("syntax enable")
 vim.g.vimtex_view_method = "zathura"
 
 -- Default localleader
-vim.g.localleader = ","
+vim.g.maplocalleader = ","

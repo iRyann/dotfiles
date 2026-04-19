@@ -54,7 +54,7 @@ return {
 				on_init = function(client)
 					local venv = vim.env.VIRTUAL_ENV
 					if venv and venv ~= "" then
-						local py = (vim.loop.os_uname().sysname:match("Windows")) and (venv .. "\\Scripts\\python.exe")
+						local py = (vim.uv.os_uname().sysname:match("Windows")) and (venv .. "\\Scripts\\python.exe")
 							or (venv .. "/bin/python")
 						client.config.settings = client.config.settings or {}
 						client.config.settings.python = client.config.settings.python or {}
@@ -91,6 +91,7 @@ return {
 
 			vim.lsp.config("clangd", {
 				capabilities = capabilities,
+				filetypes = { "c", "cpp", "objc", "objcpp" },
 				cmd = {
 					"clangd",
 					"--background-index",
@@ -144,7 +145,7 @@ return {
 			vim.diagnostic.config({
 				virtual_text = { enabled = true },
 				float = { enabled = true, border = "rounded" },
-				signs = { active = true },
+				signs = { active = false }, -- doublon neo-tree.lua
 				underline = true,
 			})
 
